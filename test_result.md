@@ -292,6 +292,8 @@ test_plan:
     - "Master Password Authentication"
     - "Double Encryption System"
     - "Password Entry CRUD Operations"
+    - "Folder Management System"
+    - "Search and Filter Functionality"
   stuck_tasks: []
   test_all: true
   test_priority: "high_first"
