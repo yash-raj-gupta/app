@@ -309,14 +309,14 @@ metadata:
 
 test_plan:
   current_focus:
-    - "User Authentication System"
-    - "Master Password Authentication"
-    - "Double Encryption System"
-    - "Password Entry CRUD Operations"
-    - "Folder Management System"
-    - "Search and Filter Functionality"
-  stuck_tasks: []
-  test_all: true
+    - "Client-side Encryption"
+    - "Add Password Form"
+    - "Password Show/Hide and Copy"
+  stuck_tasks:
+    - "Client-side Encryption"
+    - "Add Password Form"
+    - "Password Show/Hide and Copy"
+  test_all: false
   test_priority: "high_first"
 
 agent_communication:
