@@ -385,19 +385,45 @@ def test_unauthorized_access():
 
 # Test 17: User Data Isolation
 def test_user_data_isolation(token1, token2, password_id):
-    # Try to access password entry created by first user with second user's token
-    headers = {
+    # First, get the password with the first user's token to confirm it exists
+    headers1 = {
+        "Authorization": f"Bearer {token1}"
+    }
+    
+    response1 = requests.get(f"{API_URL}/passwords", headers=headers1)
+    
+    if response1.status_code != 200 or "passwords" not in response1.json():
+        log_test("User Data Isolation", False, "Failed to get first user's passwords")
+        return False
+    
+    # Check if the password_id is in the first user's passwords
+    first_user_passwords = response1.json()["passwords"]
+    password_exists = any(p.get("password_id") == password_id for p in first_user_passwords)
+    
+    if not password_exists:
+        log_test("User Data Isolation", False, f"Password ID {password_id} not found in first user's passwords")
+        return False
+    
+    # Now try to get passwords with the second user's token
+    headers2 = {
         "Authorization": f"Bearer {token2}"
     }
     
-    response = requests.get(f"{API_URL}/passwords/{password_id}", headers=headers)
+    response2 = requests.get(f"{API_URL}/passwords", headers=headers2)
     
-    # Should return 404 as the second user shouldn't see the first user's password
-    if response.status_code == 404:
+    if response2.status_code != 200 or "passwords" not in response2.json():
+        log_test("User Data Isolation", False, "Failed to get second user's passwords")
+        return False
+    
+    # Check if the password_id is NOT in the second user's passwords
+    second_user_passwords = response2.json()["passwords"]
+    password_not_visible = not any(p.get("password_id") == password_id for p in second_user_passwords)
+    
+    if password_not_visible:
         log_test("User Data Isolation", True)
         return True
     else:
-        log_test("User Data Isolation", False, f"Status code: {response.status_code}, Response: {response.text}")
+        log_test("User Data Isolation", False, "Second user can see first user's password")
         return False
 
 # Run all tests
