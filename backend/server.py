@@ -34,7 +34,7 @@ security = HTTPBearer()
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 # MongoDB setup
-MONGO_URL = os.environ.get('MONGO_URL', 'mongodb://localhost:27017')
+MONGO_URL = os.environ.get('MONGO_URL', 'mongodb+srv://user:new_pass@cluster0.xngqakh.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
 DB_NAME = os.environ.get('DB_NAME', 'password_manager')
 
 try:
