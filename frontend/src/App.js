@@ -68,7 +68,7 @@ const CryptoUtils = {
   // Decrypt password
   async decryptPassword(encryptedPassword, masterPassword, userEmail) {
     try {
-      const key = await this.generateKey(masterPassword, userPassword);
+      const key = await this.generateKey(masterPassword, userEmail);
       const combined = new Uint8Array(atob(encryptedPassword).split('').map(c => c.charCodeAt(0)));
       
       const iv = combined.slice(0, 12);
